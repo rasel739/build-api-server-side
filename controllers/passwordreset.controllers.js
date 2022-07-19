@@ -6,6 +6,7 @@ const Joi = require("joi");
 const { userInfo } = require("os");
 
 const PasswordReset = async (req, res) => {
+  // #swagger.tags = ['Reset password']
   try {
     const schema = Joi.object({ email: Joi.string().email().required() });
     const { error } = schema.validate(req.body);
@@ -34,6 +35,7 @@ const PasswordReset = async (req, res) => {
 };
 
 const passwordResetConfirmation = async (req, res) => {
+  // #swagger.tags = ['Reset password']
   try {
     const schema = Joi.object({ password: Joi.string().required() });
     const { error } = schema.validate(req.body);

@@ -1,6 +1,7 @@
 const LoginModel = require("../models/signup.model");
 
 const loginUser = async (req, res) => {
+  // #swagger.tags = ['User authentication']
   try {
     const user = await LoginModel.findOne({
       email: req.body.email,

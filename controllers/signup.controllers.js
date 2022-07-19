@@ -3,6 +3,7 @@ const Signup = require("../models/signup.model");
 const sendEmail = require("../utils/sendMail");
 
 const createSignup = async (req, res) => {
+  // #swagger.tags = ['User authentication']
   const subject = "Signup  email confirmation";
   const text =
     "Hello, Thank you for creating your Build API account.We look forward to readingyour posts and hope you will enjoy the space that we created for our customers.The  team";

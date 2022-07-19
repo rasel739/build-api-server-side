@@ -5,7 +5,7 @@ const config = require("../config/config");
 const dbUrl = config.db.url;
 
 mongoose
-  .connect(dbUrl)
+  .connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log("Database connection established");
   })
