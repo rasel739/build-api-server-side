@@ -14,7 +14,7 @@ const getAllUserData = async (req, res) => {
 const createUserData = async (req, res) => {
   // #swagger.tags = ['User data']
   const { name, phone, email, image } = req.body;
-
+  console.log(req.body);
   try {
     const newUser = new User({
       name: name,

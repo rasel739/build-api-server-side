@@ -276,6 +276,9 @@
     },
     "/resetPassword/{userId}/{token}": {
       "post": {
+        "tags": [
+          "Reset password"
+        ],
         "description": "",
         "parameters": [
           {

@@ -13,6 +13,9 @@ const dev = {
     pass: process.env.NODE_MAILER_PASS,
     from: process.env.NODE_MAILER_FROM,
   },
+  secret_jwt: {
+    secret_key: process.env.SECRET_KEY,
+  },
 };
 
 module.exports = dev;
