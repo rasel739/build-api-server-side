@@ -29,6 +29,7 @@ app.use("/loginUser", loginUser);
 app.use("/resetPassword", resetPassword);
 //get server home page
 app.get("/", (req, res) => {
+  // #swagger.ignore = true
   res.sendFile(__dirname + "/./views/index.html");
 });
 

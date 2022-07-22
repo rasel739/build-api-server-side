@@ -26,11 +26,11 @@
     "https"
   ],
   "securityDefinitions": {
-    "apiKeyAuth": {
-      "type": "apiKey",
+    "bearerAuth": {
+      "name": "Authorization",
       "in": "header",
-      "name": "X-API-KEY",
-      "description": "any description"
+      "type": "apiKey",
+      "description": "JWT Authorization header"
     }
   },
   "consumes": [
@@ -40,17 +40,6 @@
     "application/json"
   ],
   "paths": {
-    "/": {
-      "get": {
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/api/user/{email}": {
       "get": {
         "tags": [
@@ -67,7 +56,10 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "User successfully obtained.",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
           },
           "500": {
             "description": "Internal Server Error"
@@ -83,24 +75,11 @@
         "description": "",
         "parameters": [
           {
-            "name": "body",
+            "name": "obj",
             "in": "body",
+            "description": "Adding new user.",
             "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "example": "any"
-                },
-                "phone": {
-                  "example": "any"
-                },
-                "email": {
-                  "example": "any"
-                },
-                "image": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/definitions/AddUser"
             }
           }
         ],
@@ -128,18 +107,11 @@
             "type": "string"
           },
           {
-            "name": "body",
+            "name": "obj",
             "in": "body",
+            "description": "Update user data.",
             "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "example": "any"
-                },
-                "phone": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/definitions/UpdateUser"
             }
           }
         ],
@@ -183,18 +155,11 @@
         "description": "",
         "parameters": [
           {
-            "name": "body",
+            "name": "obj",
             "in": "body",
+            "description": "User Signup.",
             "schema": {
-              "type": "object",
-              "properties": {
-                "email": {
-                  "example": "any"
-                },
-                "password": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/definitions/Signup"
             }
           }
         ],
@@ -216,18 +181,11 @@
         "description": "",
         "parameters": [
           {
-            "name": "body",
+            "name": "obj",
             "in": "body",
+            "description": "User login.",
             "schema": {
-              "type": "object",
-              "properties": {
-                "email": {
-                  "example": "any"
-                },
-                "password": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/definitions/Login"
             }
           }
         ],
@@ -252,15 +210,11 @@
         "description": "",
         "parameters": [
           {
-            "name": "body",
+            "name": "obj",
             "in": "body",
+            "description": "Send reset password email.",
             "schema": {
-              "type": "object",
-              "properties": {
-                "email": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/definitions/ResetPasswordSendEmail"
             }
           }
         ],
@@ -294,15 +248,11 @@
             "type": "string"
           },
           {
-            "name": "body",
+            "name": "obj",
             "in": "body",
+            "description": "Set new password.",
             "schema": {
-              "type": "object",
-              "properties": {
-                "password": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/definitions/ResetPasswordSet"
             }
           }
         ],
@@ -322,34 +272,12 @@
       "type": "object",
       "properties": {
         "email": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "string",
-              "example": "string"
-            },
-            "unique": {
-              "type": "boolean",
-              "example": true
-            },
-            "required": {
-              "type": "boolean",
-              "example": true
-            }
-          }
+          "type": "string",
+          "example": "string"
         },
         "password": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "string",
-              "example": "string"
-            },
-            "required": {
-              "type": "boolean",
-              "example": true
-            }
-          }
+          "type": "string",
+          "example": "string"
         }
       }
     },
@@ -357,30 +285,12 @@
       "type": "object",
       "properties": {
         "email": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "string",
-              "example": "string"
-            },
-            "required": {
-              "type": "boolean",
-              "example": true
-            }
-          }
+          "type": "string",
+          "example": "string"
         },
         "password": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "string",
-              "example": "string"
-            },
-            "required": {
-              "type": "boolean",
-              "example": true
-            }
-          }
+          "type": "string",
+          "example": "string"
         }
       }
     },
@@ -388,56 +298,20 @@
       "type": "object",
       "properties": {
         "name": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "string",
-              "example": "string"
-            },
-            "required": {
-              "type": "boolean",
-              "example": true
-            }
-          }
+          "type": "string",
+          "example": "string"
         },
         "phone": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "string",
-              "example": "string"
-            },
-            "required": {
-              "type": "boolean",
-              "example": true
-            }
-          }
+          "type": "string",
+          "example": "string"
         },
         "email": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "string",
-              "example": "string"
-            },
-            "required": {
-              "type": "boolean",
-              "example": true
-            }
-          }
+          "type": "string",
+          "example": "string"
         },
         "image": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "string",
-              "example": "string"
-            },
-            "required": {
-              "type": "boolean",
-              "example": true
-            }
-          }
+          "type": "string",
+          "example": "string"
         }
       }
     },
@@ -445,58 +319,58 @@
       "type": "object",
       "properties": {
         "name": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "string",
-              "example": "string"
-            },
-            "required": {
-              "type": "boolean",
-              "example": true
-            }
-          }
+          "type": "string",
+          "example": "string"
         },
         "phone": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "string",
-              "example": "string"
-            },
-            "required": {
-              "type": "boolean",
-              "example": true
-            }
-          }
+          "type": "string",
+          "example": "string"
         },
         "email": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "string",
-              "example": "string"
-            },
-            "required": {
-              "type": "boolean",
-              "example": true
-            }
-          }
+          "type": "string",
+          "example": "string"
         },
         "image": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "string",
-              "example": "string"
-            },
-            "required": {
-              "type": "boolean",
-              "example": true
-            }
-          }
+          "type": "string",
+          "example": "image convert base64 string"
+        }
+      }
+    },
+    "UpdateUser": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "string"
+        },
+        "phone": {
+          "type": "string",
+          "example": "string"
+        }
+      }
+    },
+    "ResetPasswordSendEmail": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "string"
+        }
+      }
+    },
+    "ResetPasswordSet": {
+      "type": "object",
+      "properties": {
+        "password": {
+          "type": "string",
+          "example": "string"
         }
       }
     }
-  }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ]
 }

@@ -6,6 +6,11 @@ const saltRounds = 10;
 
 const createSignup = async (req, res) => {
   // #swagger.tags = ['User authentication']
+  /*    #swagger.parameters['obj'] = {
+                in: 'body',
+                description: 'User Signup.',
+                schema: { $ref: '#/definitions/Signup' }
+        } */
   const { email, password } = req.body;
   const subject = "Signup  email confirmation";
   const text =

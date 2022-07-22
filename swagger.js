@@ -27,33 +27,45 @@ const doc = {
     },
   ],
   securityDefinitions: {
-    apiKeyAuth: {
-      type: "apiKey",
+    bearerAuth: {
+      name: "Authorization",
       in: "header",
-      name: "X-API-KEY",
-      description: "any description",
+      type: "apiKey",
+      description: "JWT Authorization header",
     },
   },
+  security: [{ bearerAuth: [] }],
+
   definitions: {
     Signup: {
-      email: { type: "string", unique: true, required: true },
-      password: { type: "string", required: true },
+      email: "string",
+      password: "string",
     },
     Login: {
-      email: { type: "string", required: true },
-      password: { type: "string", required: true },
+      email: "string",
+      password: "string",
     },
     User: {
-      name: { type: "string", required: true },
-      phone: { type: "string", required: true },
-      email: { type: "string", required: true },
-      image: { type: "string", required: true },
+      name: "string",
+      phone: "string",
+      email: "string",
+      image: "string",
     },
     AddUser: {
-      name: { type: "string", required: true },
-      phone: { type: "string", required: true },
-      email: { type: "string", required: true },
-      image: { type: "string", required: true },
+      name: "string",
+      phone: "string",
+      email: "string",
+      image: "image convert base64 string",
+    },
+    UpdateUser: {
+      name: "string",
+      phone: "string",
+    },
+    ResetPasswordSendEmail: {
+      email: "string",
+    },
+    ResetPasswordSet: {
+      password: "string",
     },
   },
 };

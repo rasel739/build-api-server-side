@@ -2,6 +2,10 @@ const User = require("../models/user.model");
 
 const getAllUserData = async (req, res) => {
   // #swagger.tags = ['User data']
+  /* #swagger.responses[200] = {
+            description: 'User successfully obtained.',
+            schema: { $ref: '#/definitions/User' }
+    } */
   try {
     const userData = await User.find({ email: req.params.email });
 
@@ -13,8 +17,12 @@ const getAllUserData = async (req, res) => {
 
 const createUserData = async (req, res) => {
   // #swagger.tags = ['User data']
+  /*    #swagger.parameters['obj'] = {
+                in: 'body',
+                description: 'Adding new user.',
+                schema: { $ref: '#/definitions/AddUser' }
+        } */
   const { name, phone, email, image } = req.body;
-  console.log(req.body);
   try {
     const newUser = new User({
       name: name,
@@ -31,6 +39,11 @@ const createUserData = async (req, res) => {
 
 const updateUserData = async (req, res) => {
   // #swagger.tags = ['User data']
+  /*    #swagger.parameters['obj'] = {
+                in: 'body',
+                description: 'Update user data.',
+                schema: { $ref: '#/definitions/UpdateUser' }
+        } */
   try {
     const userUpdate = await User.findOne({ _id: req.params.id });
     userUpdate.name = req.body.name;

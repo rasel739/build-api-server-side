@@ -2,8 +2,14 @@ const LoginModel = require("../models/signup.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const config = require("../config/config");
+
 const loginUser = async (req, res) => {
   // #swagger.tags = ['User authentication']
+  /*    #swagger.parameters['obj'] = {
+                in: 'body',
+                description: 'User login.',
+                schema: { $ref: '#/definitions/Login' }
+        } */
   const { email, password } = req.body;
   try {
     const user = await LoginModel.findOne({
