@@ -3,7 +3,7 @@ const User = require("../models/user.model");
 const getAllUserData = async (req, res) => {
   // #swagger.tags = ['User data']
   /* #swagger.responses[200] = {
-            description: 'User successfully obtained.',
+            description: 'User get successfully.',
             schema: { $ref: '#/definitions/User' }
     } */
   try {
@@ -60,7 +60,10 @@ const deleteUserData = async (req, res) => {
   // #swagger.tags = ['User data']
   try {
     const userData = await User.deleteOne({ _id: req.params.id });
-    res.status(200).json(req.params.id);
+    res.status(200).json({
+      id: req.params.id,
+      message: "User deleted successfully",
+    });
   } catch (error) {
     res.status(500).send(error.message);
   }

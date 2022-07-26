@@ -3,6 +3,8 @@ const Signup = require("../models/signup.model");
 const sendEmail = require("../utils/sendMail");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+const jwt = require("jsonwebtoken");
+const config = require("../config/config");
 
 const createSignup = async (req, res) => {
   // #swagger.tags = ['User authentication']
@@ -15,19 +17,32 @@ const createSignup = async (req, res) => {
   const subject = "Signup  email confirmation";
   const text =
     "Hello, Thank you for creating your Build API account.We look forward to readingyour posts and hope you will enjoy the space that we created for our customers.The  team";
-  try {
-    bcrypt.hash(password, saltRounds, async (err, hash) => {
+
+  bcrypt.hash(password, saltRounds, async (err, hash) => {
+    try {
       const newSignup = new Signup({
         email: email,
         password: hash,
       });
       await newSignup.save();
       sendEmail(newSignup.email, subject, text);
-      res.status(200).json({ singup: true });
-    });
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
+      const payload = {
+        id: newSignup._id,
+        email: newSignup.email,
+      };
+      const token = jwt.sign(payload, config.secret_jwt.secret_key, {
+        expiresIn: "1d",
+      });
+      res.status(200).json({
+        message: "User signup successfully saved",
+        token: `Bearer ${token}`,
+      });
+    } catch (error) {
+      res.status(500).send({
+        error: error.message,
+      });
+    }
+  });
 };
 
 module.exports = { createSignup };

@@ -34,8 +34,10 @@ const PasswordReset = async (req, res) => {
 
     res.send("password reset link sent to your email account");
   } catch (error) {
-    res.send("An error occured");
-    console.log(error);
+    res.send({
+      email: "Please enter your valid email address",
+      error: error.message,
+    });
   }
 };
 
@@ -66,8 +68,10 @@ const passwordResetConfirmation = async (req, res) => {
 
     res.send("password reset sucessfully.");
   } catch (error) {
-    res.send("An error occured");
-    console.log(error);
+    res.send({
+      message: "Please check your email and try again valid userId and token",
+      error: error.message,
+    });
   }
 };
 

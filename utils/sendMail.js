@@ -1,8 +1,13 @@
 const nodemailer = require("nodemailer");
 const config = require("../config/config");
+const ejs = require("ejs");
+const path = require("path");
 
 const sendEmail = async (email, subject, text) => {
-  const { service, user, pass, from } = config.nodeMailer;
+  const requiredPath = path.join(__dirname, "../views/email.ejs");
+
+  const data = await ejs.renderFile(requiredPath);
+
   try {
     const transporter = nodemailer.createTransport({
       service: config.nodeMailer.service,
@@ -17,6 +22,7 @@ const sendEmail = async (email, subject, text) => {
       to: email, // list of receivers
       subject: subject,
       text: text,
+      html: data,
     });
     nodemailer.getTestMessageUrl(info);
     console.log("email sent successfully");

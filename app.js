@@ -8,7 +8,7 @@ const userRouter = require("./routes/users.route");
 const singupRouter = require("./routes/signup.route");
 const loginUser = require("./routes/login.route");
 const resetPassword = require("./routes/passwordreset.route");
-
+require("./middleware/passport.middleware");
 require("./config/db");
 const app = express();
 app.use(cors());
@@ -19,14 +19,31 @@ app.use(passport.initialize());
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 require("./middleware/passport");
 
+app.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile"] })
+);
+
+app.get(
+  "/auth/google/callback",
+  passport.authenticate("google", {
+    failureRedirect: "/login",
+    successRedirect: "/",
+  }),
+  function (req, res) {
+    // Successful authentication, redirect home.
+    res.redirect("/");
+  }
+);
+
 app.use(
   "/api/user",
   passport.authenticate("jwt", { session: false }),
   userRouter
 );
-app.use("/usersignup", singupRouter);
-app.use("/loginUser", loginUser);
-app.use("/resetPassword", resetPassword);
+app.use("/user-signup", singupRouter);
+app.use("/login-user", loginUser);
+app.use("/reset-password", resetPassword);
 //get server home page
 app.get("/", (req, res) => {
   // #swagger.ignore = true

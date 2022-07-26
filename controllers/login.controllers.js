@@ -28,7 +28,7 @@ const loginUser = async (req, res) => {
         };
 
         const token = jwt.sign(payload, config.secret_jwt.secret_key, {
-          expiresIn: "2d",
+          expiresIn: "1d",
         });
 
         res.status(200).json({
