@@ -54,6 +54,17 @@
         "responses": {}
       }
     },
+    "/login-success": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/user/{email}": {
       "get": {
         "tags": [

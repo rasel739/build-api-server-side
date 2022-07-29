@@ -8,9 +8,13 @@ const userRouter = require("./routes/users.route");
 const singupRouter = require("./routes/signup.route");
 const loginUser = require("./routes/login.route");
 const resetPassword = require("./routes/passwordreset.route");
+const config = require("./config/config");
 require("./middleware/passport.middleware");
 require("./config/db");
+const jwt = require("jsonwebtoken");
+const { application } = require("express");
 const app = express();
+
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -21,18 +25,34 @@ require("./middleware/passport");
 
 app.get(
   "/auth/google",
-  passport.authenticate("google", { scope: ["profile"] })
+  passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
 app.get(
   "/auth/google/callback",
   passport.authenticate("google", {
-    failureRedirect: "/login",
-    successRedirect: "/",
+    session: false,
+    failureRedirect: "http://localhost:3000/login",
   }),
   function (req, res) {
     // Successful authentication, redirect home.
-    res.redirect("/");
+    const { _id, email } = req.user;
+    const payload = {
+      id: _id,
+      email: email,
+    };
+
+    const token = jwt.sign(payload, config.secret_jwt.secret_key, {
+      expiresIn: "1d",
+    });
+
+    // res.status(200).json({
+    //   message: "successfully logged in",
+    //   user: email,
+    //   token: `Bearer ${token}`,
+    // });
+
+    res.redirect(`http://localhost:3000/v1/${token}/${email}`);
   }
 );
 
